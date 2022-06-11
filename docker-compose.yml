@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  geth-mainnet:                         
+    image: ethereum/client-go:v1.10.16
+    expose: 
+      - 8545
+    ports:                      
+      - "30303:30303"                                                                                 
+      - "30303:30303/udp"  
+      - "127.0.0.1:8545:8545"
+    command: '--syncmode light --http --http.api "eth,debug" --http.addr=0.0.0.0 --http.vhosts="*"'
+    volumes:                                                                                          
+      - "geth-mainnet_data:/root/.ethereum"
+    restart: unless-stopped
+
+  scanner:
+    build: ./build
+    restart: unless-stopped
+
+volumes:
+    geth-mainnet_data:
