@@ -10,7 +10,7 @@ from web3 import Web3
 # publishAndSignal:
 
 w3 = Web3(Web3.HTTPProvider('http://geth-mainnet:8545'))
-#w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
+# w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
 graph_proxy_address = '0xadca0dd4729c8ba3acf3e99f3a9f471ef37b6825'
 
 
@@ -27,14 +27,19 @@ def get_contract_from_proxy(address):
 
 
 def handle_event(event):
-    block = w3.eth.get_block(event.hex(), full_transactions=True)
+    try:
+        block = w3.eth.get_block(event.hex(), full_transactions=True)
+    except ValueError:
+        print("Ooops, uncle or orphan?")
     # Print all transactions inside the new block
     # print(block['transactions'])
     for tx in block['transactions']:
         # print(tx['input'])
         if tx['to'] == graph_proxy_address:
-            print("Transaction: " + tx)
-            print("Transaction Input: " + tx['input'])
+            print("Transaction: /n")
+            print(tx)
+            print("Transaction Input: /n")
+            print(tx['input'])
 
 
 def log_loop(event_filter, poll_interval):
