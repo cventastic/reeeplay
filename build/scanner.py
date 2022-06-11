@@ -29,17 +29,17 @@ def get_contract_from_proxy(address):
 def handle_event(event):
     try:
         block = w3.eth.get_block(event.hex(), full_transactions=True)
+        for tx in block['transactions']:
+            # print(tx['input'])
+            if tx['to'] == graph_proxy_address:
+                print("Transaction: /n")
+                print(tx)
+                print("Transaction Input: /n")
+                print(tx['input'])
     except ValueError:
         print("Ooops, uncle or orphan?")
     # Print all transactions inside the new block
     # print(block['transactions'])
-    for tx in block['transactions']:
-        # print(tx['input'])
-        if tx['to'] == graph_proxy_address:
-            print("Transaction: /n")
-            print(tx)
-            print("Transaction Input: /n")
-            print(tx['input'])
 
 
 def log_loop(event_filter, poll_interval):
