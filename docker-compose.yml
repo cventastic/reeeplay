@@ -16,6 +16,8 @@ services:
 
   scanner:
     build: ./build
+    depends_on:
+      - geth-mainnet
     restart: unless-stopped
 
 volumes:
