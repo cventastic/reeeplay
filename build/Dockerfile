@@ -6,5 +6,5 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-
-CMD [ "python", "./scanner.py" ]
+# use -u for unbuffered. otherwise logs/stdout of the script gets buffered and not printed until a threshold is reached
+CMD [ "python", "-u", "./scanner.py" ]

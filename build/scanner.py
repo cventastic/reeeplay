@@ -9,8 +9,8 @@ from web3 import Web3
 # upgradeSubgraph:
 # publishAndSignal:
 
-w3 = Web3(Web3.HTTPProvider('http://geth-mainnet:8545'))
-# w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
+#w3 = Web3(Web3.HTTPProvider('http://geth-mainnet:8545'))
+w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
 graph_proxy_address = '0xadca0dd4729c8ba3acf3e99f3a9f471ef37b6825'
 
 
@@ -29,6 +29,7 @@ def get_contract_from_proxy(address):
 def handle_event(event):
     try:
         block = w3.eth.get_block(event.hex(), full_transactions=True)
+        print(block['number'])
         for tx in block['transactions']:
             # print(tx['input'])
             if tx['to'] == graph_proxy_address:
@@ -44,9 +45,12 @@ def handle_event(event):
 
 def log_loop(event_filter, poll_interval):
     while True:
-        for event in event_filter.get_new_entries():
-            handle_event(event)
-        time.sleep(poll_interval)
+        try:
+            for event in event_filter.get_new_entries():
+                handle_event(event)
+            time.sleep(poll_interval)
+        except ValueError:
+            print("Couldn't get block with filter function")
 
 
 def main():
