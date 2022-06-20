@@ -14,11 +14,29 @@ services:
       - "geth-mainnet_data:/root/.ethereum"
     restart: unless-stopped
 
+  geth-rinkeby:
+    image: ethereum/client-go:v1.10.16
+    expose:
+      - 8545
+    ports:
+      - "30304:30303"
+      - "30304:30303/udp"
+      - "127.0.0.1:8546:8545"
+    command: '--rinkeby --syncmode light --http --http.api "eth,debug" --http.addr=0.0.0.0 --http.vhosts="*"'
+    volumes:
+      - "geth-rinkeby_data:/root/.ethereum"
+    restart: unless-stopped
+
   scanner:
     build: ./build
+    environment:
+      - PRIVATE_KEY=$PRIVATE_KEY
+      - SENDER_ADDRESS=$SENDER_ADDRESS
     depends_on:
       - geth-mainnet
+      - geth-rinkeby
     restart: unless-stopped
 
 volumes:
     geth-mainnet_data:
+    geth-rinkeby_data:
