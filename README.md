@@ -2,7 +2,9 @@
 
 
 replay transactions from mainnet to rinkeby
+
 Fill out .env_skel file and rename it to .env.
+
 Then do:
 ```
 docker-compose up -d
