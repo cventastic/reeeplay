@@ -10,7 +10,7 @@ Then do:
 docker-compose up -d
 ```
 
-
+0x143298ca69a5ca3b5e5c4c69952952910d353d22608eaf6b53de16d64e05d39b
 
 # MISC:
 
@@ -28,4 +28,21 @@ json_abi = json.loads(abi.text)
 contract_abi = w3.eth.contract(w3.toChecksumAddress(get_contract_from_proxy(proxy_contract)), abi=json_abi)
 tx = w3.eth.get_transaction(transaction)
 print(contract_abi.decode_function_input(tx.input))
+```
+
+
+get contract from proxy
+```
+# https://eips.ethereum.org/EIPS/eip-1967#logic-contract-address
+def get_contract_from_proxy(address):
+    contract = w3.eth.get_storage_at(address, position='0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc')
+    return helper_remove_zeros(contract.hex())
+```
+
+remove zeroes from address:
+```
+def helper_remove_zeros(address):
+    decimal = int(address, 16)
+    hexa = HexBytes(decimal)
+    return hexa.hex()
 ```
