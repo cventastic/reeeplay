@@ -10,6 +10,27 @@ Then do:
 docker-compose up -d
 ```
 
+TODO:
+
+Deal with transactions that go no "to:" - address but create a contract for example
+```
+Traceback (most recent call last):
+  File "/usr/src/app/./scanner.py", line 42, in <module>
+    main()
+  File "/usr/src/app/./scanner.py", line 38, in main
+    log_loop(block_filter, 2)
+  File "/usr/src/app/./scanner.py", line 30, in log_loop
+    handle_event(event)
+  File "/usr/src/app/./scanner.py", line 15, in handle_event
+    if tx['to'].lower() == graph_proxy_address.lower():
+AttributeError: 'NoneType' object has no attribute 'lower'
+```
+mainnet example:
+tx 0xb3c58428edfc1bf1c82167ff084e286841eab8f4ac8736613adab72dc304b874
+block 15002654
+
+
+test replay tx on rinkeby
 0x143298ca69a5ca3b5e5c4c69952952910d353d22608eaf6b53de16d64e05d39b
 
 # MISC:

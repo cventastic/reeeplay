@@ -6,12 +6,9 @@ w3 = Web3(Web3.HTTPProvider('http://geth-mainnet:8545'))
 graph_proxy_address = '0xadca0dd4729c8ba3acf3e99f3a9f471ef37b6825'
 
 
-def handle_event(event):
-    try:
-        block = w3.eth.get_block(event.hex(), full_transactions=True)
-        print(block['number'])
-        for tx in block['transactions']:
-            # print(tx['input'])
+def replay_tx(block):
+    for tx in block['transactions']:
+        try:
             if tx['to'].lower() == graph_proxy_address.lower():
                 print("Transaction: /n")
                 print(tx)
@@ -19,6 +16,15 @@ def handle_event(event):
                 print(tx['input'])
                 payload = tx['input']
                 replay.sent_rinkeby(payload)
+        except AttributeError:
+            print("replay_tx() couldn't get to-address, probably contract creation transaction")
+
+
+def handle_event(event):
+    try:
+        block = w3.eth.get_block(event.hex(), full_transactions=True)
+        print(block['number'])
+        replay_tx(block)
     except ValueError:
         print("Ooops, uncle or orphan?")
 

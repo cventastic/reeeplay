@@ -18,7 +18,7 @@ def sent_rinkeby(input):
         'to': to_address,
         'value': value,
         'gas': 2000000,
-        'input': input,
+        'data': input,
         'gasPrice': gasPrice
     }
     signed_tx = w3.eth.account.sign_transaction(tx, private_key)
