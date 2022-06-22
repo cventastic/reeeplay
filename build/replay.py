@@ -14,6 +14,7 @@ value = w3.toWei(0, 'ether')
 
 def sent_rinkeby(input):
     tx = {
+        'chainid': 4,
         'nonce': nonce,
         'to': to_address,
         'value': value,
