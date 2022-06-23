@@ -7,12 +7,12 @@ private_key = os.environ['PRIVATE_KEY']
 from_address = os.environ['SENDER_ADDRESS']
 to_address = '0x4beb7299221807Cd47C2fa118c597C51Cc2fEC99'
 
-nonce = w3.eth.getTransactionCount(from_address)
 gasPrice = w3.toWei('50', 'gwei')
 value = w3.toWei(0, 'ether')
 
 
 def sent_rinkeby(input):
+    nonce = w3.eth.getTransactionCount(from_address)
     tx = {
         'chainId': 4,
         'nonce': nonce,
